@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan Tour Itinerary</title>
+  <style>
+    :root{
+      --bg1:#fff1f2;
+      --bg2:#ffffff;
+      --bg3:#f8fafc;
+      --text:#1e293b;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --soft2:#f1f5f9;
+      --red:#ef4444;
+      --red-text:#b91c1c;
+      --dark:#0f172a;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:linear-gradient(to bottom, var(--bg1), var(--bg2), var(--bg3));
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    img{display:block}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(239,68,68,.10), transparent 30%),
+        radial-gradient(circle at top left, rgba(59,130,246,.10), transparent 25%);
+      pointer-events:none;
+    }
+    .hero-grid{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:40px;
+      align-items:center;
+      padding:64px 0 90px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid #fecaca;
+      background:#fef2f2;
+      color:var(--red-text);
+      border-radius:999px;
+      padding:8px 14px;
+      font-size:14px;
+      font-weight:700;
+    }
+    h1{
+      margin:16px 0 0;
+      font-size:58px;
+      line-height:1.04;
+      letter-spacing:-.03em;
+    }
+    .lead{
+      margin:20px 0 0;
+      max-width:640px;
+      color:var(--muted);
+      font-size:19px;
+    }
+    .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .btn{
+      display:inline-block;
+      border-radius:18px;
+      padding:14px 18px;
+      font-size:14px;
+      font-weight:700;
+    }
+    .btn-dark{background:var(--dark);color:#fff}
+    .btn-light{background:#fff;border:1px solid #cbd5e1;color:#334155}
+    .btn-green{background:#22c55e;color:#fff}
+    .btn-green:hover{background:#16a34a}
+    .hero-card{
+      overflow:hidden;
+      border-radius:32px;
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:0 20px 40px rgba(15,23,42,.08);
+    }
+    .hero-card img{width:100%;height:288px;object-fit:cover}
+    .hero-card-body{padding:24px}
+    .hero-top{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px
+    }
+    .chip{
+      display:inline-block;
+      border-radius:999px;
+      background:var(--soft2);
+      color:var(--muted);
+      padding:6px 12px;
+      font-size:12px;
+      font-weight:700;
+    }
+    .route-list{display:flex;flex-direction:column;gap:12px}
+    .route-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      border-radius:18px;
+      transition:background .2s ease;
+      padding:2px;
+    }
+    .route-row:hover{background:#f8fafc}
+    .route-num{
+      width:32px;height:32px;border-radius:999px;background:var(--red);color:#fff;
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;
+    }
+    .route-pill{
+      flex:1;border-radius:18px;background:var(--soft2);padding:12px 16px;font-size:14px;font-weight:700;color:#334155
+    }
+
+    section{padding:56px 0}
+    .section-head{
+      display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:24px
+    }
+    .eyebrow{
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:var(--red-text);
+    }
+    h2{
+      margin:6px 0 0;
+      font-size:38px;
+      line-height:1.12;
+    }
+
+    .days{display:grid;gap:24px}
+    .day-card{
+      overflow:hidden;
+      border-radius:32px;
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:0 4px 20px rgba(15,23,42,.04);
+      transition:box-shadow .2s ease;
+      position:relative;
+      z-index:1;
+    }
+    .day-card:hover{box-shadow:0 12px 28px rgba(15,23,42,.08)}
+    .day-grid{
+      display:grid;
+      grid-template-columns:320px 1fr;
+    }
+    .day-photo{
+      position:relative;
+      min-height:240px;
+    }
+    .day-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .day-overlay{
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15), transparent);
+    }
+    .day-photo-text{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:20px;
+      color:#fff;
+    }
+    .day-small{
+      font-size:14px;
+      font-weight:700;
+      color:#fecaca;
+    }
+    .day-date{
+      font-size:14px;
+      color:rgba(255,255,255,.85);
+    }
+    .day-title{
+      margin:8px 0 0;
+      font-size:32px;
+      line-height:1.1;
+      font-weight:800;
+    }
+    .location-badge{
+      display:inline-flex;
+      margin-top:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.15);
+      padding:7px 12px;
+      font-size:12px;
+      font-weight:700;
+      text-decoration:underline;
+      text-decoration-color:rgba(255,255,255,.3);
+      text-underline-offset:3px;
+      backdrop-filter:blur(6px);
+    }
+    .location-badge:hover{text-decoration-color:#fff}
+    .day-content{padding:24px 28px 30px}
+    .index-badge{
+      margin-bottom:18px;
+      width:48px;height:48px;border-radius:18px;background:var(--dark);color:#fff;
+      display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;
+    }
+    .hotel-card{
+      margin-bottom:18px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:14px 16px;
+      box-shadow:0 2px 8px rgba(15,23,42,.04);
+    }
+    .hotel-label{
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .hotel-name{
+      margin-top:6px;
+      font-size:14px;
+      font-weight:600;
+      color:var(--text);
+    }
+    .hotel-name a{
+      text-decoration:underline;
+      text-decoration-color:#cbd5e1;
+      text-underline-offset:3px;
+    }
+    .hotel-name a:hover{text-decoration-color:#475569}
+    .highlight-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+    .highlight{
+      border-radius:18px;
+      background:var(--soft2);
+      padding:14px 16px;
+      font-size:14px;
+      color:#334155;
+      transition:background .2s ease;
+    }
+    .highlight:hover{background:#e2e8f0}
+    .highlight a{
+      font-weight:600;
+      text-decoration:underline;
+      text-decoration-color:#cbd5e1;
+      text-underline-offset:3px;
+    }
+    .highlight a:hover{text-decoration-color:#475569}
+
+    .footer{
+      background:var(--dark);
+      color:#fff;
+      border-top:1px solid var(--line);
+      padding:48px 0;
+      position:relative;
+      z-index:1;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+    .footer-card{
+      border-radius:32px;
+      background:rgba(255,255,255,.05);
+      padding:24px;
+    }
+    .footer-card h3{
+      margin:0;
+      font-size:18px;
+    }
+    .footer-card p{
+      margin:12px 0 0;
+      color:#cbd5e1;
+      font-size:14px;
+      line-height:1.65;
+    }
+
+    .sakura-container{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .sakura{
+      position:absolute;
+      top:-10vh;
+      background:#fda4af;
+      border-radius:60% 40% 60% 40%;
+      opacity:.8;
+      animation:sakuraFall linear infinite;
+      filter:blur(.15px);
+    }
+    @keyframes sakuraFall {
+      0% { transform: translate3d(0,-10vh,0) rotate(0deg); opacity:.92; }
+      25% { transform: translate3d(14px,25vh,0) rotate(90deg); }
+      50% { transform: translate3d(-10px,55vh,0) rotate(180deg); opacity:.85; }
+      75% { transform: translate3d(12px,82vh,0) rotate(270deg); }
+      100% { transform: translate3d(-8px,110vh,0) rotate(360deg); opacity:.55; }
+    }
+
+    .floating-whatsapp{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      z-index:50;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      background:#22c55e;
+      color:#fff;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+    }
+    .floating-whatsapp:hover{background:#16a34a}
+
+    @media (max-width: 980px){
+      .hero-grid, .day-grid, .footer-grid{grid-template-columns:1fr}
+      h1{font-size:42px}
+      h2{font-size:30px}
+    }
+    @media (max-width: 640px){
+      .container{padding:0 16px}
+      .hero-grid{padding:42px 0 56px}
+      .highlight-grid{grid-template-columns:1fr}
+      .day-title{font-size:26px}
+      .section-head{display:block}
+      .floating-whatsapp{right:12px;bottom:12px;padding:11px 14px;font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <div class="sakura-container" id="sakura"></div>
+  <div id="app"></div>
+
+  <script>
+    const WHATSAPP_NUMBER = "817047483204";
+    const WHATSAPP_MESSAGE = "Hi Juvie, I have a question about the tour";
+    const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
+    const placeLinks = {
+      'Osaka': 'https://www.google.com/maps/search/?api=1&query=Osaka+Japan',
+      'Nara': 'https://www.google.com/maps/search/?api=1&query=Nara+Japan',
+      'Kyoto': 'https://www.google.com/maps/search/?api=1&query=Kyoto+Japan',
+      'Mt. Fuji': 'https://www.google.com/maps/search/?api=1&query=Mount+Fuji+Japan',
+      'Tokyo': 'https://www.google.com/maps/search/?api=1&query=Tokyo+Japan',
+      'Yokohama': 'https://www.google.com/maps/search/?api=1&query=Yokohama+Japan',
+      'Osaka / Nara / Kyoto': 'https://www.google.com/maps/dir/Osaka+Japan/Nara+Japan/Kyoto+Japan',
+      'Osaka → Kyoto': 'https://www.google.com/maps/dir/Osaka+Japan/Kyoto+Japan',
+      'Kyoto → Mt. Fuji Area → Tokyo': 'https://www.google.com/maps/dir/Kyoto+Japan/Mount+Fuji+Japan/Tokyo+Japan',
+      'Tokyo / Narita': 'https://www.google.com/maps/dir/Tokyo+Japan/Narita+International+Airport',
+      'International Departure': 'https://www.google.com/maps/search/?api=1&query=Japan+international+airport',
+      'Osaka Castle': 'https://www.osakacastle.net/english/',
+      'Todaiji Temple': 'https://www.todaiji.or.jp/en/',
+      'Kasuga Taisha Shrine': 'https://www.kasugataisha.or.jp/en/',
+      'Nara Deer Park': 'https://www.visitnara.jp/destinations/area/nara-park/park/',
+      'Arashiyama Bamboo Grove': 'https://www.japan-guide.com/e/e3912.html',
+      'Kinkakuji (Golden Pavilion)': 'https://www.shokoku-ji.jp/en/kinkakuji/',
+      'Fushimi Inari Shrine': 'https://inari.jp/en/',
+      'Iyashi no Sato traditional village': 'https://saikoiyashinosatonenba.jp/en/',
+      'Wind Cave & Ice Cave': 'https://www.mtfuji-cave.com/english/',
+      'Sensoji Temple': 'https://www.senso-ji.jp/english/',
+      'Ueno Park': 'https://www.tokyo-park.or.jp/park/ueno/en/',
+      'Akihabara': 'https://visit-chiyoda.tokyo/en/places/akihabara/',
+      'Yamashita Park scavenger hunt': 'https://www.welcome.city.yokohama.jp/en/spot/details/1001/',
+      'Shin-Yokohama Ramen Museum': 'https://www.raumen.co.jp/english/',
+      'Yokohama Chinatown': 'https://www.chinatown.or.jp/en/',
+      'Tokyo Tower': 'https://www.tokyotower.co.jp/en.html',
+      'Meiji Shrine': 'https://www.meijijingu.or.jp/en/',
+      'Harajuku': 'https://www.gotokyo.org/en/destinations/western-tokyo/harajuku/index.html',
+      'Shibuya': 'https://www.gotokyo.org/en/destinations/western-tokyo/shibuya/index.html'
+    };
+
+    const highlightIcons = {
+      'Depart for Japan': '✈️',
+      'Arrive in Osaka': '🛬',
+      'Transfer to Kyoto': '🚌',
+      'Overnight in Kyoto': '🏨',
+      'Osaka Castle': '🏯',
+      'Todaiji Temple': '⛩️',
+      'Kasuga Taisha Shrine': '⛩️',
+      'Nara Deer Park': '🦌',
+      'Arashiyama Bamboo Grove': '🎋',
+      'Kinkakuji (Golden Pavilion)': '🏯',
+      'Fushimi Inari Shrine': '⛩️',
+      'Bullet train ride': '🚄',
+      'Iyashi no Sato traditional village': '🏡',
+      'Wind Cave & Ice Cave': '🗻',
+      'Mt. Fuji photo stops': '📸',
+      'Sensoji Temple': '⛩️',
+      'Ueno Park': '🌸',
+      'Akihabara': '🎮',
+      'Yamashita Park scavenger hunt': '🗺️',
+      'Optional karaoke': '🎤',
+      'Tokyo Tower': '🗼',
+      'Meiji Shrine': '⛩️',
+      'Harajuku': '🛍️',
+      'Shibuya': '🚦',
+      'Airport transfer': '🚌',
+      'Return flight home': '✈️',
+      'Shin-Yokohama Ramen Museum': '🍜',
+      'Yokohama Chinatown': '🥟',
+      'Sushi dinner': '🍣',
+      'Matcha ice cream tasting': '🍦',
+      'Konbini Experience': '🍙',
+      'Sumo-style hot pot dinner': '🍲',
+      'Farewell dinner': '🍱',
+      'Dinner in Kyoto': '🍽️',
+      'Dinner near Narita': '🍽️'
+    };
+
+    const days = [
+      { day: 'Day 1', date: 'March 27, 2026', title: 'Travel Day', location: 'International Departure', image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80', highlights: ['Depart for Japan'], hotel: 'In transit / flight day' },
+      { day: 'Day 2', date: 'March 28, 2026', title: 'Arrival in Osaka / Kyoto', location: 'Osaka → Kyoto', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80', highlights: ['Arrive in Osaka', 'Transfer to Kyoto', 'Konbini Experience', 'Overnight in Kyoto'], hotel: 'Travelodge Kyoto Shijo Omiya' },
+      { day: 'Day 3', date: 'March 29, 2026', title: 'Osaka & Nara', location: 'Osaka / Nara / Kyoto', image: 'https://cdn.cheapoguides.com/wp-content/uploads/sites/3/2019/06/nara-deer-iStock-1151590597-770x514.jpg', highlights: ['Osaka Castle', 'Todaiji Temple', 'Kasuga Taisha Shrine', 'Nara Deer Park', 'Sushi dinner'], hotel: 'Travelodge Kyoto Shijo Omiya' },
+      { day: 'Day 4', date: 'March 30, 2026', title: 'Kyoto Highlights', location: 'Kyoto', image: 'https://www.japan-guide.com/g18/3908_top.jpg', highlights: ['Arashiyama Bamboo Grove', 'Kinkakuji (Golden Pavilion)', 'Fushimi Inari Shrine', 'Matcha ice cream tasting', 'Dinner in Kyoto'], hotel: 'Travelodge Kyoto Shijo Omiya' },
+      { day: 'Day 5', date: 'March 31, 2026', title: 'Shinkansen & Mt. Fuji Area', location: 'Kyoto → Mt. Fuji Area → Tokyo', image: 'https://travel.rakuten.com/contents/sites/contents/files/styles/max_1300x1300/public/2024-07/tokyo-to-mountfuji_1.jpg?itok=J51rHtP_', highlights: ['Bullet train ride', 'Iyashi no Sato traditional village', 'Wind Cave & Ice Cave', 'Mt. Fuji photo stops', 'Dinner near Narita'], hotel: 'The Hedistar Hotel Narita' },
+      { day: 'Day 6', date: 'April 1, 2026', title: 'Tokyo Highlights', location: 'Tokyo', image: 'https://cdn.cheapoguides.com/wp-content/uploads/sites/2/2020/05/akihabara-iStock-484915982-1024x683.jpg', highlights: ['Sensoji Temple', 'Ueno Park', 'Akihabara', 'Sumo-style hot pot dinner'], hotel: 'The Hedistar Hotel Narita' },
+      { day: 'Day 7', date: 'April 2, 2026', title: 'Yokohama Day Trip', location: 'Yokohama', image: 'https://www.japan-guide.com/g20/3202_01.jpg', highlights: ['Yamashita Park scavenger hunt', 'Shin-Yokohama Ramen Museum', 'Yokohama Chinatown', 'Optional karaoke'], hotel: 'The Hedistar Hotel Narita' },
+      { day: 'Day 8', date: 'April 3, 2026', title: 'Tokyo Exploration', location: 'Tokyo', image: 'https://cdn.cheapoguides.com/wp-content/uploads/sites/2/2020/05/meiji-jingu-iStock-499807771-1024x600.jpg', highlights: ['Tokyo Tower', 'Meiji Shrine', 'Harajuku', 'Shibuya', 'Farewell dinner'], hotel: 'The Hedistar Hotel Narita' },
+      { day: 'Day 9', date: 'April 4, 2026', title: 'Departure', location: 'Tokyo / Narita', image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80', highlights: ['Airport transfer', 'Return flight home'], hotel: 'Departure day / no overnight hotel' }
+    ];
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderHighlights(highlights) {
+      return highlights.map((highlight) => {
+        const icon = highlightIcons[highlight];
+        const link = placeLinks[highlight];
+        const text = icon ? `${icon} ${highlight}` : highlight;
+        return `
+          <div class="highlight">
+            ${link
+              ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(text)}</a>`
+              : `<span>${escapeHtml(text)}</span>`
+            }
+          </div>
+        `;
+      }).join('');
+    }
+
+    function makeSakura() {
+      const container = document.getElementById('sakura');
+      for (let i = 0; i < 30; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'sakura';
+        const left = Math.random() * 100;
+        const duration = 8 + Math.random() * 10;
+        const delay = Math.random() * 10;
+        const size = 8 + Math.random() * 10;
+        petal.style.left = `${left}%`;
+        petal.style.animationDuration = `${duration}s`;
+        petal.style.animationDelay = `${delay}s`;
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size}px`;
+        container.appendChild(petal);
+      }
+    }
+
+    const stops = ['Osaka', 'Nara', 'Kyoto', 'Mt. Fuji', 'Tokyo', 'Yokohama'];
+
+    document.getElementById('app').innerHTML = `
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="pill">Japan Tour • March 27 – April 4, 2026</div>
+            <h1>Backtracking the Golden Route</h1>
+            <p class="lead">A 9-day journey through Japan’s cultural landmarks, iconic cities, food experiences, and Mt. Fuji scenery.</p>
+            <div class="btns">
+              <a href="#itinerary" class="btn btn-dark">View Itinerary</a>
+      
+              <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="btn btn-green">💬 Tour Director: Juvie Nishina</a>
+            </div>
+          </div>
+
+          <div id="route-overview" class="hero-card">
+            <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?auto=format&fit=crop&w=1400&q=80" alt="Japan travel overview">
+            <div class="hero-card-body">
+              <div class="hero-top">
+                <h3 style="margin:0;font-size:20px">Route Overview</h3>
+                <span class="chip">9 Days</span>
+              </div>
+              <div class="route-list">
+                ${stops.map((stop, idx) => `
+                  <a class="route-row" href="${placeLinks[stop]}" target="_blank" rel="noopener noreferrer">
+                    <div class="route-num">${idx + 1}</div>
+                    <div class="route-pill">${escapeHtml(stop)}</div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="itinerary" style="padding-top:0;padding-bottom:64px">
+        <div class="container">
+          <div class="section-head" style="display:block">
+            <div class="eyebrow">Daily Plan</div>
+            <h2>Day-by-Day Itinerary</h2>
+          </div>
+
+          <div class="days">
+            ${days.map((item, index) => `
+              <div class="day-card">
+                <div class="day-grid">
+                  <div class="day-photo">
+                    <img src="${item.image}" alt="${escapeHtml(item.title)}">
+                    <div class="day-overlay"></div>
+                    <div class="day-photo-text">
+                      <div class="day-small">${escapeHtml(item.day)}</div>
+                      <div class="day-date">${escapeHtml(item.date)}</div>
+                      <div class="day-title">${escapeHtml(item.title)}</div>
+                      <a class="location-badge" href="${placeLinks[item.location] || '#'}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.location)}</a>
+                    </div>
+                  </div>
+
+                  <div class="day-content">
+                    <div class="index-badge">${index + 1}</div>
+                    <div class="hotel-card">
+                      <div class="hotel-label">Hotel</div>
+                      <div class="hotel-name">
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.hotel)}" target="_blank" rel="noopener noreferrer">📍 ${escapeHtml(item.hotel)}</a>
+                      </div>
+                    </div>
+                    <div class="highlight-grid">
+                      ${renderHighlights(item.highlights)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="footer-card">
+              <h3>Major Highlights</h3>
+              <p>Temples, shrines, castles, modern city districts, Japanese food experiences, and Mt. Fuji scenery.</p>
+            </div>
+            <div class="footer-card">
+              <h3>Destinations</h3>
+              <p>Osaka, Nara, Kyoto, Mt. Fuji Area, Tokyo, and Yokohama.</p>
+            </div>
+            <div class="footer-card">
+              <h3>Trip Style</h3>
+              <p>Educational, cultural, and student-friendly with a balanced mix of sightseeing and free exploration.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="floating-whatsapp">
+        <span>💬</span>
+        <span>Ask me something about the tour</span>
+      </a>
+    `;
+
+    makeSakura();
+  </script>
+</body>
+</html>
